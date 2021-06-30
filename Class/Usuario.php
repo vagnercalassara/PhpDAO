@@ -39,6 +39,7 @@
 			return $this->status_usuario = $value;
 		}	
 
+		//Lista o usuário pelo id...
 		public function loadById($id){
 			
 			// Classe responsavel por fazer os comando ao banco..
@@ -60,7 +61,55 @@
 			}
 		}
 
-		
+		// Lista de todos usuários cadastrados...
+		public function getList(){
+
+			// Classe responsavel por fazer os comando no banco...
+			$Sql = new SQL();
+
+			// Retorno do select
+			return $Sql->select("SELECT * FROM TB_USUARIO ORDER BY ID_USARIO");
+		}
+
+		// lista usuario pelo login..
+		public function search($login)
+		{
+			// Classe responsave por fazer os comando no banco...
+			$Sql = new SQL();
+
+			// retorno do select...
+			return $Sql->select("SELECT * FROM TB_USUARIO WHERE EMAIL_USUARIO LIKE :SEARCH", array(
+				":SEARCH"=>"%".$login."%"
+				));
+		}
+
+		public function login($login,$senha)
+		{
+
+			$Sql = new SQL();
+
+			$resultado = $Sql->select("SELECT * FROM TB_USUARIO WHERE EMAIL_USUARIO =:EMAIL_USUARIO AND SENHA_USUARIO =:SENHA_USUARIO",
+										array(
+										":EMAIL_USUARIO"=>$login,
+										":SENHA_USUARIO"=>$senha
+									 ));
+
+			if (count($resultado) > 0)
+			{				
+				$row = $resultado[0];
+
+				$this->setId_Usuario($row['id_usario']);
+				$this->setTipo_Usuario($row['tipo_usuario']);
+				$this->setEmail_Usuario($row['email_usuario']);
+				$this->setSenha_Usuario($row['senha_usuario']);
+				$this->setStatus_Usuario($row['status_usuario']);
+			}
+			else 
+			{
+				throw new Exception("Login ou senha inválidos.");				
+			}
+		}
+
 
 		// Construtor responsavel por gerar o json...
 		public function __toString(){
