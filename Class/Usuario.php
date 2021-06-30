@@ -39,6 +39,32 @@
 			return $this->status_usuario = $value;
 		}	
 
+		public function Insert()
+		{
+			$Sql = new SQL();
+
+			$resultado = $Sql->select("call sp_usuario_insert(:TIPO_USUARIO,:EMAIL_USUARIO,:SENHA_USUARIO,:STATUS_USUARIO)",
+							array(
+									":TIPO_USUARIO"=>getTipo_Usuario(),
+									":EMAIL_USUARIO"=>getEmail_Usuario(),
+									":SENHA_USUARIO"=>getSenha_Usuario(),
+									":STATUS_USUARIO"=>getStatus_Usuario()
+								));
+
+			// Verificação se existe informação..
+			if (isset($resultado[0])) {
+				
+				$row = $resultado[0];
+
+				$this->setId_Usuario($row['id_usario']);
+				$this->setTipo_Usuario($row['tipo_usuario']);
+				$this->setEmail_Usuario($row['email_usuario']);
+				$this->setSenha_Usuario($row['senha_usuario']);
+				$this->setStatus_Usuario($row['status_usuario']);
+			}
+		}
+
+
 		//Lista o usuário pelo id...
 		public function loadById($id){
 			
