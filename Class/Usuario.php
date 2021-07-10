@@ -68,6 +68,17 @@
 			}
 		}
 
+		public function Update()
+		{
+			$Sql = new SQL();
+
+			$Sql->query("UPDATE TB_USUARIO SET EMAIL_USUARIO =:EMAIL_USUARIO, SENHA_USUARIO = :SENHA_USUARIO WHERE ID_USARIO = :ID_USARIO", array(
+						"EMAIL_USUARIO"=>$this->getEmail_Usuario(),
+						"SENHA_USUARIO"=>$this->getSenha_Usuario(),
+						"ID_USARIO"=>$this->getId_Usuario()
+					));
+		}
+
 
 		//Lista o usuário pelo id...
 		public function loadById($id){
