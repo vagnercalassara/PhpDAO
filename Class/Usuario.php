@@ -1,6 +1,7 @@
 <?php 
 
-	class Usuario {
+	class Usuario 
+	{
 
 		private $id_usuario;
 		private $tipo_usuario;
@@ -39,28 +40,31 @@
 			return $this->status_usuario = $value;
 		}	
 
+		public function setData($data)
+		{
+			$this->setTipo_Usuario($data['tipo_usuario']);
+			$this->setId_Usuario($data['id_usario']);
+			$this->setEmail_Usuario($data['email_usuario']);
+			$this->setSenha_Usuario($data['senha_usuario']);
+			$this->setStatus_Usuario($data['status_usuario']);		
+		}
+
+		// Inserção do usuário no banco..
 		public function Insert()
 		{
 			$Sql = new SQL();
 
 			$resultado = $Sql->select("call sp_usuario_insert(:TIPO_USUARIO,:EMAIL_USUARIO,:SENHA_USUARIO,:STATUS_USUARIO)",
 							array(
-									":TIPO_USUARIO"=>getTipo_Usuario(),
-									":EMAIL_USUARIO"=>getEmail_Usuario(),
-									":SENHA_USUARIO"=>getSenha_Usuario(),
-									":STATUS_USUARIO"=>getStatus_Usuario()
+									":TIPO_USUARIO"=>$this->getTipo_Usuario(),
+									":EMAIL_USUARIO"=>$this->getEmail_Usuario(),
+									":SENHA_USUARIO"=>$this->getSenha_Usuario(),
+									":STATUS_USUARIO"=>$this->getStatus_Usuario()
 								));
 
 			// Verificação se existe informação..
-			if (isset($resultado[0])) {
-				
-				$row = $resultado[0];
-
-				$this->setId_Usuario($row['id_usario']);
-				$this->setTipo_Usuario($row['tipo_usuario']);
-				$this->setEmail_Usuario($row['email_usuario']);
-				$this->setSenha_Usuario($row['senha_usuario']);
-				$this->setStatus_Usuario($row['status_usuario']);
+			if (isset($resultado[0])) {				
+				$this->setData($resultado[0]);				
 			}
 		}
 
@@ -75,15 +79,9 @@
 			$resultado = $SQL->select("SELECT * FROM TB_USUARIO WHERE ID_USARIO = :ID_USARIO", array(":ID_USARIO"=>$id));
 
 			// Verificação se existe informação..
-			if (isset($resultado[0])) {
-				
-				$row = $resultado[0];
-
-				$this->setId_Usuario($row['id_usario']);
-				$this->setTipo_Usuario($row['tipo_usuario']);
-				$this->setEmail_Usuario($row['email_usuario']);
-				$this->setSenha_Usuario($row['senha_usuario']);
-				$this->setStatus_Usuario($row['status_usuario']);
+			if (isset($resultado[0]))
+			{
+				$this->setData($resultado[0]);							
 			}
 		}
 
@@ -122,13 +120,7 @@
 
 			if (count($resultado) > 0)
 			{				
-				$row = $resultado[0];
-
-				$this->setId_Usuario($row['id_usario']);
-				$this->setTipo_Usuario($row['tipo_usuario']);
-				$this->setEmail_Usuario($row['email_usuario']);
-				$this->setSenha_Usuario($row['senha_usuario']);
-				$this->setStatus_Usuario($row['status_usuario']);
+				$this->setData($resultado[0]);
 			}
 			else 
 			{
