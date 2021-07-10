@@ -24,6 +24,7 @@ $Usuario->setStatus_Usuario(1);
 $Usuario->Insert();
 */
 
+/*
 // Alteração do usuario...
 $Usuario->setTipo_Usuario(1);
 $Usuario->setEmail_Usuario("alterado@gmail.com");
@@ -33,9 +34,12 @@ $Usuario->setId_Usuario(58);
 $Usuario->Update();
 
 $Usuario->loadById(58);
+*/
 
-
-
+// Exclusão do usuário
+$Usuario->setId_Usuario(54);
+$Usuario->delete();
+$Usuario->loadById(54);
 echo $Usuario;
 
  ?>

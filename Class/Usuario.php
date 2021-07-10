@@ -79,6 +79,15 @@
 					));
 		}
 
+		public function delete()
+		{
+			$Sql = new SQL();
+
+			$Sql->query("DELETE FROM TB_USUARIO WHERE ID_USARIO = :ID_USARIO", array(
+						"ID_USARIO"=>$this->getId_Usuario()
+						));
+		}
+
 
 		//Lista o usuário pelo id...
 		public function loadById($id){
